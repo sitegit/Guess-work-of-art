@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Guess work of art</string>
+    <string name="work_of_art">work of art</string>
+    <string name="url_work_of_art">https://www.atxfinearts.com/blogs/news/100-most-famous-paintings-in-the-world</string>
+    <string name="start_pattern_url">div class=\"article-template__content page-width page-width--narrow rte\"(.*?)</string>
+    <string name="finish_pattern_url">div class=\"article-template__back element-margin-top center\"</string>
+    <string name="pattern_img">img src=\"(.*?)\"</string>
+    <string name="pattern_text">alt=\"(.*?)\"</string>
+    <string name="https">https:</string>
+    <string name="right_answer">Right!</string>
+    <string name="incorrect_answer">Incorrect, correct answer:</string>
+</resources>
