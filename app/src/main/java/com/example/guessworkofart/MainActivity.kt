@@ -54,10 +54,22 @@ class MainActivity : AppCompatActivity() {
             bitMap?.let {
                 binding.imageView.setImageBitmap(it)
                 buttons.forEachIndexed { index, button ->
-                    val buttonText = if (index == numberOfRightQuestion) {
-                        descriptions[numberOfQuestion]
+                    val tempList = mutableListOf<String>()
+                    val buttonText: String
+                    if (index == numberOfRightQuestion) {
+                        buttonText = descriptions[numberOfQuestion]
                     } else {
-                        descriptions[generateWrongAnswer()]
+                        while (true) {
+                            val wrongAnswer = descriptions.indices.random()
+                            if (wrongAnswer != numberOfQuestion && !tempList.contains(
+                                    descriptions[wrongAnswer]
+                                )
+                            ) {
+                                buttonText = descriptions[wrongAnswer]
+                                tempList.add(descriptions[wrongAnswer])
+                                break
+                            }
+                        }
                     }
                     button.text = buttonText
                 }
@@ -70,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         numberOfQuestion = descriptions.indices.random()
         numberOfRightQuestion = buttons.indices.random()
     }
-
-    private fun generateWrongAnswer() = descriptions.indices.random()
 
     private fun getContent(baseUrl: String) {
         lifecycleScope.launch {
