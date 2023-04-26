@@ -1,12 +1,17 @@
 package com.example.guessworkofart
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.guessworkofart.databinding.ActivityMainBinding
@@ -31,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        start()
+    }
+
+    private fun start() {
         val baseUrl = getString(R.string.url_work_of_art)
 
         descriptions = mutableListOf()
@@ -42,9 +52,34 @@ class MainActivity : AppCompatActivity() {
             binding.button4
         )
 
-        getContent(baseUrl)
-    }
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
+        if (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
+            getContent(baseUrl)
+        } else {
+            Toast.makeText(this@MainActivity, getString(R.string.lost_network), Toast.LENGTH_SHORT).show()
+        }
+        connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                getContent(baseUrl)
+            }
+
+            override fun onLost(network: Network) {
+                Toast.makeText(this@MainActivity, getString(R.string.lost_network), Toast.LENGTH_SHORT).show()
+                binding.layout.isInvisible = true
+            }
+        })
+    }
+    private fun getContent(baseUrl: String) {
+        lifecycleScope.launch {
+            val text = withContext(Dispatchers.IO) {
+                downloadText(baseUrl)
+            }
+            createPattern(text)
+            playGame()
+        }
+    }
     private fun playGame() {
         lifecycleScope.launch {
             generateQuestion()
@@ -79,17 +114,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun generateQuestion() {
-        numberOfQuestion = descriptions.indices.random()
-        numberOfRightQuestion = buttons.indices.random()
-    }
-
-    private fun getContent(baseUrl: String) {
-        lifecycleScope.launch {
-            val text = withContext(Dispatchers.IO) {
-                downloadText(baseUrl)
-            }
-            createPattern(text)
-            playGame()
+        try {
+            numberOfQuestion = descriptions.indices.random()
+            numberOfRightQuestion = buttons.indices.random()
+        } catch (e: NoSuchElementException) {
+            Toast.makeText(this@MainActivity, getString(R.string.failed_data), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -121,7 +150,6 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                // Ensure that the connection is properly closed
                 urlConnection?.disconnect()
             }
             result.toString()

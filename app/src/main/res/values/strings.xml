@@ -9,4 +9,6 @@
     <string name="https">https:</string>
     <string name="right_answer">Right!</string>
     <string name="incorrect_answer">Incorrect, correct answer:</string>
+    <string name="lost_network">Something went wrong, check your internet connection</string>
+    <string name="failed_data">Failed to retrieve data, possibly the site providing it is no longer valid</string>
 </resources>
