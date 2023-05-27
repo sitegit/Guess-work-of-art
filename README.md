@@ -1,5 +1,5 @@
 Guess-work-of-art
-GuessWorkOfArt GuessWorkOfArt is a simple Android game that shows a work of art and offers four possible descriptions. The player has to choose the right one. Part of the error handling has not yet been implemented.
+GuessWorkOfArt GuessWorkOfArt is a simple Android game that shows a work of art and offers four possible descriptions. The player has to choose the right one. 
 
 This project uses Kotlin programming language and the following components:
 
@@ -11,6 +11,3 @@ How it works GuessWorkOfArt uses the WikiArt API to obtain the images and descri
 
 The app also downloads the images using coroutines and displays them using an ImageView.
 
-Contributions Contributions to GuessWorkOfArt are welcome. Feel free to create a pull request if you find any bug or if you want to add new features.
-
-License GuessWorkOfArt is released under the NONE.
