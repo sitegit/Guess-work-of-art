@@ -2,6 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="night_colors">#5C3B30</color>
+    <color name="night_colors">#1C291D</color>
     <color name="day_colors">#ABFDF6</color>
 </resources>

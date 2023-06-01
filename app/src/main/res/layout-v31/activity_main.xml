@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="UsingOnClickInXml,VisualLintButtonSize" />
+        tools:ignore="UsingOnClickInXml,VisualLintButtonSize,VisualLintOverlap" />
 
     <Button
         android:id="@+id/button1"
@@ -78,24 +78,32 @@
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="UsingOnClickInXml,VisualLintButtonSize" />
+        tools:ignore="UsingOnClickInXml,VisualLintButtonSize,VisualLintOverlap" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="35dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="35dp"
-        android:background="@drawable/shape"
-        android:clipToOutline="true"
-        android:contentDescription="@string/work_of_art"
-        android:outlineProvider="background"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/button1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:ignore="VisualLintBounds">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:background="@color/white"
+            android:contentDescription="@string/work_of_art"
+            tools:srcCompat="@tools:sample/avatars"
+            tools:ignore="VisualLintBounds" />
+    </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
